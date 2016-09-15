@@ -125,16 +125,16 @@ public struct JSON {
         self.init(dictionary)
     }
 
-    /// Private object
-    private var rawArray: [AnyObject] = []
-    private var rawDictionary: [String : AnyObject] = [:]
-    private var rawString: String = ""
-    private var rawNumber: NSNumber = 0
-    private var rawNull: NSNull = NSNull()
-    /// Private type
-    private var _type: Type = .null
-    /// prviate error
-    private var _error: NSError? = nil
+    /// Fileprivate object
+    fileprivate var rawArray: [AnyObject] = []
+    fileprivate var rawDictionary: [String : AnyObject] = [:]
+    fileprivate var rawString: String = ""
+    fileprivate var rawNumber: NSNumber = 0
+    fileprivate var rawNull: NSNull = NSNull()
+    /// Fileprivate type
+    fileprivate var _type: Type = .null
+    /// Fileprivate error
+    fileprivate var _error: NSError? = nil
 
     /// Object in JSON
     public var object: AnyObject {
@@ -304,7 +304,7 @@ extension String: JSONSubscriptType {
 extension JSON {
 
     /// If `type` is `.Array`, return json whose object is `array[index]`, otherwise return null json with error.
-    private subscript(index index: Int) -> JSON {
+    fileprivate subscript(index index: Int) -> JSON {
         get {
             if self.type != .array {
                 var r = JSON.null
@@ -328,7 +328,7 @@ extension JSON {
     }
 
     /// If `type` is `.Dictionary`, return json whose object is `dictionary[key]` , otherwise return null json with error.
-    private subscript(key key: String) -> JSON {
+    fileprivate subscript(key key: String) -> JSON {
         get {
             var r = JSON.null
             if self.type == .dictionary {
@@ -350,7 +350,7 @@ extension JSON {
     }
 
     /// If `sub` is `Int`, return `subscript(index:)`; If `sub` is `String`,  return `subscript(key:)`.
-    private subscript(sub sub: JSONSubscriptType) -> JSON {
+    fileprivate subscript(sub sub: JSONSubscriptType) -> JSON {
         get {
             switch sub.jsonKey {
             case .index(let index): return self[index: index]
@@ -736,8 +736,8 @@ extension JSON {
             switch self.type {
             case .string:
                 let decimal = NSDecimalNumber(string: self.object as? String)
-                if decimal == NSDecimalNumber.notANumber() {  // indicates parse error
-                    return NSDecimalNumber.zero()
+                if decimal == NSDecimalNumber.notANumber {  // indicates parse error
+                    return NSDecimalNumber.zero
                 }
                 return decimal
             case .number, .bool:
@@ -1155,10 +1155,10 @@ public func <(lhs: JSON, rhs: JSON) -> Bool {
     }
 }
 
-private let trueNumber = NSNumber(value: true)
-private let falseNumber = NSNumber(value: false)
-private let trueObjCType = String(cString: trueNumber.objCType)
-private let falseObjCType = String(cString: falseNumber.objCType)
+fileprivate let trueNumber = NSNumber(value: true)
+fileprivate let falseNumber = NSNumber(value: false)
+fileprivate let trueObjCType = String(cString: trueNumber.objCType)
+fileprivate let falseObjCType = String(cString: falseNumber.objCType)
 
 // MARK: - NSNumber: Comparable
 
